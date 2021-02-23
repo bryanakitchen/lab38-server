@@ -43,4 +43,39 @@ describe('Server routes', () => {
       });
   });
 
+  it('Deletes a flash card via DELETE', async() => {
+    const card = await Card.insert({ keyTerm: 'DOM', definition: 'Document Object Model', topic: 'JavaScript' });
+
+    return request(app)
+      .delete(`/api/v1/cards/${card.id}`)
+      .then(res => {
+        expect(res.body).toEqual({
+          id: expect.any(String),
+          keyTerm: 'DOM', 
+          definition: 'Document Object Model', 
+          topic: 'JavaScript'
+        });
+      });
+  });
+
+  it('Updates a flash card via PUT', async() => {
+    const card = await Card.insert({ keyTerm: 'DIM', definition: 'Document Object Model', topic: 'JavaScript' });
+
+    return request(app)
+      .put(`/api/v1/cards/${card.id}`)
+      .send({
+        keyTerm: 'DOM', 
+        definition: 'Document Object Model', 
+        topic: 'JavaScript'
+      })
+      .then(res => {
+        expect(res.body).toEqual({
+          id: expect.any(String),
+          keyTerm: 'DOM', 
+          definition: 'Document Object Model', 
+          topic: 'JavaScript'
+        });
+      });
+  });
+
 });
