@@ -43,6 +43,21 @@ describe('Server routes', () => {
       });
   });
 
+  it('Finds a flash card via GET', async() => {
+    const card = await Card.insert({ keyTerm: 'DOM', definition: 'Document Object Model', topic: 'JavaScript' });
+
+    return request(app)
+      .get(`/api/v1/cards/${card.id}`)
+      .then(res => {
+        expect(res.body).toEqual({
+          id: expect.any(String),
+          keyTerm: 'DOM', 
+          definition: 'Document Object Model', 
+          topic: 'JavaScript'
+        });
+      });
+  });
+
   it('Deletes a flash card via DELETE', async() => {
     const card = await Card.insert({ keyTerm: 'DOM', definition: 'Document Object Model', topic: 'JavaScript' });
 
