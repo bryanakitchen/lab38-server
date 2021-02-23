@@ -43,4 +43,19 @@ describe('Server routes', () => {
       });
   });
 
+  it('Deletes a flash card via DELETE', async() => {
+    const card = await Card.insert({ keyTerm: 'DOM', definition: 'Document Object Model', topic: 'JavaScript' });
+
+    return request(app)
+      .delete(`/api/v1/cards/${card.id}`)
+      .then(res => {
+        expect(res.body).toEqual({
+          id: expect.any(String),
+          keyTerm: 'DOM', 
+          definition: 'Document Object Model', 
+          topic: 'JavaScript'
+        });
+      });
+  });
+
 });
